@@ -1,7 +1,8 @@
 from src.ui.theme.color import GRAY, GREEN, RED, YELLOW
 from src.data.api.interceptor.auth_interceptor import Auth
 import requests
-from src.data.model.creditnote_request import CreditNoteRequest
+from src.data.model.creditnote_receipt_request import CreditNoteForReceiptRequest
+from src.data.model.creditnote_invoice_request import CreditNoteForInvoiceRequest
 from dataclasses import asdict
 import simplejson as json
 
@@ -10,7 +11,7 @@ class YamlGeneratorApi:
         print(f"{YELLOW}{self.__class__.__name__} Init.{GRAY}")
         self.host = host
 
-    def generateCreditNoteYaml(self, workSpaceOid: str, body: CreditNoteRequest) -> requests.Response:
+    def generateCreditNoteYaml(self, workSpaceOid: str, body: CreditNoteForReceiptRequest | CreditNoteForInvoiceRequest) -> requests.Response:
         """ Generate the yaml file. """
         Auth.checkAuth()
 

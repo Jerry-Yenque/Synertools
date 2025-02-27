@@ -8,7 +8,7 @@ from src.data.api.yaml_generator_api import YamlGeneratorApi
 from src.data.repository.creditnote_repository import CreditNoteRepository
 import time
 
-class CreditNoteUseCase:
+class CreditNoteUseCases:
     def __init__(
             self, 
             invoice_repository: InvoiceRepository, 
@@ -19,11 +19,14 @@ class CreditNoteUseCase:
         self.__receipt_repository = receipt_repository
         self.__creditnote_repository = creditnote_repository
 
-    def generateCreditNotesYamlFromCsvForInvoices(self):
-        df = pd.read_csv(filepath_or_buffer=r"data\input\Invoices.csv", dtype={'oid': str, 'number': str}, sep=">")
-        for number in df['number']:
-            receipt = self.__invoice_repository.getInvoiceByNumber(number=number)
-            print(f"{BLUE}{number} -> {WHITE}{receipt.number} : {receipt.id}{GRAY}")
+    def generateCreditNotesYamlFromCsvForInvoices(self, filepath: str, workSpaceOid: str, balanceOid: str):
+        df = pd.read_csv(filepath_or_buffer=filepath, dtype={'oid': str, 'number': str}, sep=">")
+        for i, number in enumerate(df['number'], start=1):
+            invoiceMongo = self.__invoice_repository.getInvoiceByNumber(number=number)
+            print(f"{YELLOW}{i}- {BLUE}{number} -> {WHITE}{invoiceMongo.number} : {invoiceMongo.id}{GRAY}")
+            invoiceRemote = self.__invoice_repository.getRemoteInvoiceById(id=invoiceMongo.id)
+            print(f"{WHITE}InvoiceRemote: {GREEN}{invoiceRemote.number}{GRAY}")
+            self.__creditnote_repository.generateCreditNoteYamlForInvoice(workSpaceOid=workSpaceOid, body=invoiceRemote, balanceOid=balanceOid)
 
     def generateCreditNotesYamlFromCsvForReceipts(self, filepath: str, workSpaceOid: str, balanceOid: str):
         df = pd.read_csv(filepath_or_buffer=filepath, dtype={'oid': str, 'number': str}, sep="\t")
@@ -34,7 +37,7 @@ class CreditNoteUseCase:
             print(f"{YELLOW}{i}- {BLUE}{number} -> {WHITE}{receiptMongo.number} : {receiptMongo.id}{GRAY}")
             receiptRemote = self.__receipt_repository.getRemoteReceiptById(id=receiptMongo.id)
             print(f"{WHITE}ReceiptRemote: {GREEN}{receiptRemote.number}{GRAY}")
-            self.__creditnote_repository.generateCreditNoteYaml(workSpaceOid=workSpaceOid, body=receiptRemote, balanceOid=balanceOid)
+            self.__creditnote_repository.generateCreditNoteYamlForReceipt(workSpaceOid=workSpaceOid, body=receiptRemote, balanceOid=balanceOid)
 
             # end_time = time.perf_counter()  # Finaliza el temporizador
             # elapsed_time = end_time - start_time  # Tiempo de la iteración
@@ -63,7 +66,7 @@ if __name__ == "__main__":
     # creditnote_repository = CreditNoteRepository(yaml_generator_api=yaml_generator_api)
     # receipt_repository = ReceiptRepository(mongo_datasource=mongo_datasource, receipt_api=receipt_api)
 
-    # usecase = CreditNoteUseCase(
+    # usecase = CreditNoteUseCases(
     #     invoice_repository=invoice_repository, 
     #     receipt_repository=receipt_repository,
     #     creditnote_repository=creditnote_repository

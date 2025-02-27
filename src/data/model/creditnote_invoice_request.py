@@ -1,17 +1,18 @@
-from src.data.model.receipt import ReceiptResponse, Payment
+from src.data.model.receipt import Payment
+from src.data.model.invoice import InvoiceResponse
 from dataclasses import dataclass, field
 
 @dataclass
-class CreditNoteRequest(ReceiptResponse):
+class CreditNoteForInvoiceRequest(InvoiceResponse):
     type: str = field(init=False)
     sourceDocOid: str = field(init=False)
 
     @classmethod
-    def from_receipt(cls, receipt: ReceiptResponse, balanceOid: str) -> "CreditNoteRequest":
+    def from_invoice(cls, invoice: InvoiceResponse, balanceOid: str) -> "CreditNoteRequest":
 
         adjusted_payments = []
 
-        for original_payment in receipt.payments:
+        for original_payment in invoice.payments:
             adjusted_payment = Payment(
                 oid=original_payment.oid,
                 type=original_payment.type,
@@ -37,28 +38,28 @@ class CreditNoteRequest(ReceiptResponse):
             oid=None,
             id=None,
             number=None,
-            items=receipt.items,
-            status=receipt.status,
-            date=receipt.date,
-            currency=receipt.currency,
-            netTotal=receipt.netTotal,
-            crossTotal=receipt.crossTotal,
-            exchangeRate=receipt.exchangeRate,
-            payableAmount=receipt.payableAmount,
-            taxes=receipt.taxes,
-            contactOid=receipt.contactOid,
-            workspaceOid=receipt.workspaceOid,
-            note=receipt.note,
-            employeeRelations=receipt.employeeRelations,
+            items=invoice.items,
+            status=invoice.status,
+            date=invoice.date,
+            currency=invoice.currency,
+            netTotal=invoice.netTotal,
+            crossTotal=invoice.crossTotal,
+            exchangeRate=invoice.exchangeRate,
+            payableAmount=invoice.payableAmount,
+            taxes=invoice.taxes,
+            contactOid=invoice.contactOid,
+            workspaceOid=invoice.workspaceOid,
+            note=invoice.note,
+            employeeRelations=invoice.employeeRelations,
             balanceOid=balanceOid,
             payments=adjusted_payments, 
-            discount=receipt.discount,
-            receiptItems=receipt.receiptItems,
-            contact=receipt.contact
+            discount=invoice.discount,
+             contact=invoice.contact,
+            invoiceItems=invoice.invoiceItems,
         )
 
         # Establecer los campos adicionales
         instance.type = "CREDITNOTE"
-        instance.sourceDocOid = receipt.oid or receipt.id
+        instance.sourceDocOid = invoice.oid or invoice.id
 
         return instance

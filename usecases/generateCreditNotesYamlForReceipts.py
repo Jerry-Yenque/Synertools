@@ -1,4 +1,4 @@
-# This script is to generate yaml files for credit notes.
+# This script is to generate yaml files for credit notes for receipts from .csv.
 from src.synertools import Synertools
 
 if __name__ == "__main__":

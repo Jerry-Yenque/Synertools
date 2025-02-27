@@ -2,7 +2,7 @@ from src.data.api.receipt_api import ReceiptApi
 from src.data.api.yaml_generator_api import YamlGeneratorApi
 from src.data.api.invoice_api import InvoiceApi
 from src.data.datasource.mongo_datasource import MongoDataSource
-from src.domain.usecase.creditnote_usecase import CreditNoteUseCase
+from src.domain.usecase.creditnote_usecases import CreditNoteUseCases
 from src.data.repository.invoice_repository import InvoiceRepository
 from src.data.repository.receipt_repository import ReceiptRepository
 from src.data.repository.creditnote_repository import CreditNoteRepository
@@ -63,7 +63,7 @@ class AppContainer:
     @property
     def invoiceRepository(self):
         if self.invoice_repository is None:
-            self.invoice_repository = InvoiceRepository(mongo_datasource=self.mongoDataSource)
+            self.invoice_repository = InvoiceRepository(mongo_datasource=self.mongoDataSource, invoice_api=self.invoiceApiService)
         return self.invoice_repository
     
     @property
@@ -75,7 +75,7 @@ class AppContainer:
     @property
     def creditNoteUseCases(self):
         if self.creditnote_usecases is None:
-            self.creditnote_usecases = CreditNoteUseCase(
+            self.creditnote_usecases = CreditNoteUseCases(
                 invoice_repository=self.invoiceRepository, 
                 receipt_repository=self.receiptRepository,
                 creditnote_repository=self.creditNoteRepository

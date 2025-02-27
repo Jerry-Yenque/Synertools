@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Optional, List, Any
 from decimal import Decimal
 
@@ -161,5 +161,5 @@ class ReceiptResponse:
     balanceOid: str
     payments: List[Payment]
     discount: Optional[Decimal]
-    receiptItems: List[Item]
     contact: Contact
+    receiptItems: List[Item]
