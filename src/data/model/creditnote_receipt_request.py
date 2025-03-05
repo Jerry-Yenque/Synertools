@@ -7,7 +7,7 @@ class CreditNoteForReceiptRequest(ReceiptResponse):
     sourceDocOid: str = field(init=False)
 
     @classmethod
-    def from_receipt(cls, receipt: ReceiptResponse, balanceOid: str) -> "CreditNoteRequest":
+    def from_receipt(cls, receipt: ReceiptResponse, balanceOid: str) -> "CreditNoteForReceiptRequest":
 
         adjusted_payments = []
 

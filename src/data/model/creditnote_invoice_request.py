@@ -8,7 +8,7 @@ class CreditNoteForInvoiceRequest(InvoiceResponse):
     sourceDocOid: str = field(init=False)
 
     @classmethod
-    def from_invoice(cls, invoice: InvoiceResponse, balanceOid: str) -> "CreditNoteRequest":
+    def from_invoice(cls, invoice: InvoiceResponse, balanceOid: str) -> "CreditNoteForInvoiceRequest":
 
         adjusted_payments = []
 
