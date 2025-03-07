@@ -5,14 +5,14 @@ from src.data.model.receipt import TaxEntry
 
 @dataclass
 class Position:
+    productOid: str
     crossPrice: Decimal
     crossUnitPrice: Decimal
     netPrice: Decimal
     netUnitPrice: Decimal
-    productOid: str
     quantity: int
     taxAmount: Decimal
-    taxes: TaxEntry
+    taxes: List[TaxEntry]
 
 @dataclass
 class CalculatorResponse:
