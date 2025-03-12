@@ -1,8 +1,10 @@
-from src.domain.model.receipt import Receipt, ReceiptItem
-from src.data.model.calculator_request import CalculatorRequest
-from src.data.model.calculator_request import Position
 from decimal import Decimal
 from pprint import pprint
+
+from src.data.model.calculator_request import CalculatorRequest
+from src.data.model.calculator_request import Position
+from src.domain.model.receipt import Receipt, ReceiptItem
+
 
 def receipt_to_calculator_request(receipt: Receipt) -> CalculatorRequest:
     positions = []
@@ -27,12 +29,12 @@ if __name__ == "__main__":
         index=2,
         productOid="prod-321",
         quantity="2",
-        netUnitPrice=Decimal("10.00"),
-        crossUnitPrice=Decimal("12.00"),
-        netPrice=Decimal("50.00"),
-        crossPrice=Decimal("60.00"),
-        currency="USD",
-        exchangeRate="1.0",
+        # netUnitPrice=Decimal("10.00"),
+        # crossUnitPrice=Decimal("12.00"),
+        # netPrice=Decimal("50.00"),
+        # crossPrice=Decimal("60.00"),
+        # currency="USD",
+        # exchangeRate="1.0",
         remark="Con descuento"
     )
 
@@ -40,12 +42,12 @@ if __name__ == "__main__":
         index=1,
         productOid="prod-123",
         quantity="5",
-        netUnitPrice=Decimal("10.00"),
-        crossUnitPrice=Decimal("12.00"),
-        netPrice=Decimal("50.00"),
-        crossPrice=Decimal("60.00"),
-        currency="USD",
-        exchangeRate="1.0",
+        # netUnitPrice=Decimal("10.00"),
+        # crossUnitPrice=Decimal("12.00"),
+        # netPrice=Decimal("50.00"),
+        # crossPrice=Decimal("60.00"),
+        # currency="USD",
+        # exchangeRate="1.0",
         remark="Sin descuento"
     )
     

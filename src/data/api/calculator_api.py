@@ -1,14 +1,17 @@
-import src.ui.theme.color as color
-import requests
-from src.data.api.interceptor.auth_interceptor import Auth
-from src.data.model.calculator_response import CalculatorResponse
-from pprint import pprint
 import json
-import simplejson as simplejson
-from decimal import Decimal
 from dataclasses import asdict
-from src.data.model.calculator_request import CalculatorRequest, Position
+from decimal import Decimal
+from pprint import pprint
+
+import requests
+import simplejson as simplejson
 from dacite import from_dict, Config
+
+import src.ui.theme.color as color
+from src.data.api.interceptor.auth_interceptor import Auth
+from src.data.model.calculator_request import CalculatorRequest, Position
+from src.data.model.calculator_response import CalculatorResponse
+
 
 class CalculatorApi:
     def __init__(self, host: str) -> None:

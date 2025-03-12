@@ -1,6 +1,6 @@
 from src.ui.theme.color import GRAY, GREEN, RED, YELLOW
 from src.data.api.yaml_generator_api import YamlGeneratorApi
-from src.data.model.receipt import ReceiptResponse
+from src.data.model.receipt_response import ReceiptResponse
 from src.data.model.invoice import InvoiceResponse
 from src.data.model.creditnote_receipt_request import CreditNoteForReceiptRequest
 from src.data.model.creditnote_invoice_request import CreditNoteForInvoiceRequest

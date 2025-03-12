@@ -1,7 +1,9 @@
+from bson import ObjectId
 from pymongo import MongoClient
 from pymongo.errors import PyMongoError
+
 from src.ui.theme.color import GRAY, YELLOW
-from bson import ObjectId
+
 
 class MongoDataSource:
 
@@ -15,7 +17,7 @@ class MongoDataSource:
         self.client = MongoClient(mongo_uri)
         self.db = self.client[db_name]
 
-    def get_documents(self, collection_name: str, query: dict = {}) -> list:
+    def get_documents(self, collection_name: str, query: dict) -> list:
         """ Returns documents from a MongoDB collection. """ 
         try:
             return list(self.db[collection_name].find(query))
@@ -23,7 +25,7 @@ class MongoDataSource:
             print(f"Error al obtener documentos: {e}")
 
 
-    def get_document(self, collection_name: str, query: dict = {}) -> dict:
+    def get_document(self, collection_name: str, query: dict) -> dict:
         """Retorna un único documento que cumple con la query o None si no existe."""
         try:
             return self.db[collection_name].find_one(query)

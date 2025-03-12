@@ -5,7 +5,7 @@ from bson import ObjectId
 from src.data.mapper.data_to_domain_mapper import invoiceToDomain
 from src.domain.model.receipt import Receipt
 from src.data.api.invoice_api import InvoiceApi
-from src.data.model.receipt import ReceiptResponse
+from src.data.model.receipt_response import ReceiptResponse
 from pprint import pprint
 
 class InvoiceRepository:
@@ -50,6 +50,6 @@ if __name__ == "__main__":
     mongo_datasource = MongoDataSource(mongo_uri="mongodb://localhost:27017", db_name="alesar")
     invoice_repository = InvoiceRepository(mongo_datasource=mongo_datasource, invoice_api=invoice_api)
     receipt = invoice_repository.getRemoteInvoiceById(id = "67b4ca12fa0f9264c10a36bc")
-    # receipt = receipt_repository.getReceiptByNumber(number= "B908-00462108")
+    # receipt = receipt_repository.get_receipt_by_number(number= "B908-00462108")
 
     pprint(receipt)

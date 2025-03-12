@@ -1,10 +1,13 @@
-from src.ui.theme.color import GRAY, GREEN, RED, YELLOW
-from src.data.api.interceptor.auth_interceptor import Auth
-import requests
-from src.data.model.creditnote_receipt_request import CreditNoteForReceiptRequest
-from src.data.model.creditnote_invoice_request import CreditNoteForInvoiceRequest
 from dataclasses import asdict
+
+import requests
 import simplejson as json
+
+from src.data.api.interceptor.auth_interceptor import Auth
+from src.data.model.creditnote_invoice_request import CreditNoteForInvoiceRequest
+from src.data.model.creditnote_receipt_request import CreditNoteForReceiptRequest
+from src.ui.theme.color import GRAY, GREEN, RED, YELLOW
+
 
 class YamlGeneratorApi:
     def __init__(self, host: str) -> None:

@@ -1,6 +1,8 @@
-from src.data.model.receipt import Payment
-from src.data.model.invoice import InvoiceResponse
 from dataclasses import dataclass, field
+
+from src.data.model.invoice import InvoiceResponse
+from src.data.model.receipt_response import Payment
+
 
 @dataclass
 class CreditNoteForInvoiceRequest(InvoiceResponse):

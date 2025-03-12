@@ -1,17 +1,8 @@
-
-# class Receipt:
-#     def __init__(self, id: str, oid: str, number: str) -> None:
-#         self.id = id
-#         self.oid = oid
-#         self.number = number
-
-#     def __repr__(self) -> str:
-#         # Devuelve una cadena útil para depuración (debug)
-#         return f"Receipt(id='{self.id}', oid='{self.oid}', number='{self.number}')"
-
 from dataclasses import dataclass
 from typing import Optional, List
-from decimal import Decimal
+
+from src.data.model.Payment import Payment
+
 
 @dataclass
 class ReceiptItem:
@@ -31,6 +22,7 @@ class Receipt:
     id: str
     oid: str
     number: str
+    payments: List[Payment]
     items: List[ReceiptItem]
     crossTotal: str
     contactOid: str

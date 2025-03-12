@@ -1,6 +1,8 @@
+"""" We are modeling the response for getReceiptById backend """
 from dataclasses import dataclass
-from typing import Optional, List, Any
 from decimal import Decimal
+from typing import Optional, List, Any
+
 
 @dataclass
 class TaxDetail:

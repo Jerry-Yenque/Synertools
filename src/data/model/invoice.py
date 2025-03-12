@@ -1,7 +1,9 @@
 from dataclasses import dataclass
-from typing import Optional, List, Any
 from decimal import Decimal
-from src.data.model.receipt import Item, TaxEntry, EmployeeRelation, Payment, Contact
+from typing import Optional, List
+
+from src.data.model.receipt_response import Item, TaxEntry, EmployeeRelation, Payment, Contact
+
 
 @dataclass
 class InvoiceResponse:

@@ -33,9 +33,9 @@ class CreditNoteUseCases:
         # iteration_times = []
         for i, number in enumerate(df['number'].iloc[5324:], start=1):
             # start_time = time.perf_counter()
-            receiptMongo = self.__receipt_repository.getReceiptByNumber(number=number)
+            receiptMongo = self.__receipt_repository.get_receipt_by_number(number=number)
             print(f"{YELLOW}{i}- {BLUE}{number} -> {WHITE}{receiptMongo.number} : {receiptMongo.id}{GRAY}")
-            receiptRemote = self.__receipt_repository.getRemoteReceiptById(id=receiptMongo.id)
+            receiptRemote = self.__receipt_repository.get_remote_receipt_by_id(mongo_id=receiptMongo.id)
             print(f"{WHITE}ReceiptRemote: {GREEN}{receiptRemote.number}{GRAY}")
             self.__creditnote_repository.generateCreditNoteYamlForReceipt(workSpaceOid=workSpaceOid, body=receiptRemote, balanceOid=balanceOid)
 

@@ -1,7 +1,9 @@
 from dataclasses import dataclass
-from typing import List
 from decimal import Decimal
-from src.data.model.receipt import TaxEntry
+from typing import List
+
+from src.data.model.receipt_response import TaxEntry
+
 
 @dataclass
 class Position:

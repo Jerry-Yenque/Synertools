@@ -1,11 +1,14 @@
-import src.ui.theme.color as color
-import requests
-from src.data.api.interceptor.auth_interceptor import Auth
-from dacite import from_dict, Config
-from src.data.model.invoice import InvoiceResponse
-from pprint import pprint
 import json
 from decimal import Decimal
+from pprint import pprint
+
+import requests
+from dacite import from_dict, Config
+
+import src.ui.theme.color as color
+from src.data.api.interceptor.auth_interceptor import Auth
+from src.data.model.invoice import InvoiceResponse
+
 
 class InvoiceApi:
     def __init__(self, host: str) -> None:
