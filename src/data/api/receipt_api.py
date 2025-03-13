@@ -44,7 +44,7 @@ class ReceiptApi:
         }
         url = f'{self.host}/api/workspaces/{workspace_oid}/documents/receipts?orderId={order_id}'
 
-        body_dict = asdict(body)
+        body_dict = asdict(body) # type: ignore
         json_data = simplejson.dumps(body_dict, use_decimal=True)
 
         response = requests.post(url=url, headers=header, data=json_data)

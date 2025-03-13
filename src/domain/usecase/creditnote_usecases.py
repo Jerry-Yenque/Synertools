@@ -18,7 +18,7 @@ class CreditNoteUseCases:
         self.__creditnote_repository = creditnote_repository
 
     def generate_credit_notes_yaml_from_csv_for_invoices(self, filepath: str, workspace_oid: str, balance_oid: str):
-        df = pd.read_csv(filepath_or_buffer=filepath, dtype={'oid': str, 'number': str}, sep=">")
+        df = pd.read_csv(filepath_or_buffer=filepath, dtype={'oid': str, 'number': str}, sep="\t")
         for i, number in enumerate(df['number'], start=1):
             invoice_mmongo = self.__invoice_repository.get_invoice_by_number(number=number)
             print(f"{YELLOW}{i}- {BLUE}{number} -> {WHITE}{invoice_mmongo.number} : {invoice_mmongo.id}{GRAY}")
