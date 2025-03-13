@@ -16,7 +16,7 @@ class YamlGeneratorApi:
 
     def generateCreditNoteYaml(self, workSpaceOid: str, body: CreditNoteForReceiptRequest | CreditNoteForInvoiceRequest) -> requests.Response:
         """ Generate the yaml file. """
-        Auth.checkAuth()
+        Auth.check_auth()
 
         headers = {
             'Authorization': f'Bearer {Auth.token}',  #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

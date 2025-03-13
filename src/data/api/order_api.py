@@ -19,7 +19,7 @@ class OrderApi:
         self.host = host
     
     def create_order_old(self, body: OrderRequest) -> dict:
-        Auth.checkAuth()
+        Auth.check_auth()
 
         headers = {
             'Authorization': f'Bearer {Auth.token}',  #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

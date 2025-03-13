@@ -20,7 +20,7 @@ class ReceiptApi:
         self.host = host
 
     def get_receipt_by_id(self, receipt_id: str) -> ReceiptResponse:
-        Auth.checkAuth()
+        Auth.check_auth()
 
         headers = {
             'Authorization': f'Bearer {Auth.token}',  #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -36,7 +36,7 @@ class ReceiptApi:
     
     def generate_receipt(self, workspace_oid: str, order_id: str, body: CreateReceiptRequest) -> None:
         """ Order must be with status 'OPEN' """
-        Auth.checkAuth()
+        Auth.check_auth()
 
         header = {
             'Authorization' : f'Bearer {Auth.token}',

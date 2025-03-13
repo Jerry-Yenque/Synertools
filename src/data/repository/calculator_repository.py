@@ -16,12 +16,12 @@ class CalculatorRepository:
 
 
     def calculate(self, workspace_oid: str, body: CalculatorRequest) -> CalculatorResponse:
-        return self.__calculator_api.calculate(workSpaceOid=workspace_oid, body=body)
+        return self.__calculator_api.calculate(workspace_oid=workspace_oid, body=body)
     
     def calculate_from_local_receipt(self, workspace_oid: str, body: Receipt) -> CalculatorResponse:
         calculator_request = receipt_to_calculator_request(receipt=body)
         # print(f"{Color.GREEN}{calculator_request}{Color.GRAY}")
-        return self.__calculator_api.calculate(workSpaceOid=workspace_oid, body=calculator_request)
+        return self.__calculator_api.calculate(workspace_oid=workspace_oid, body=calculator_request)
         
 
 

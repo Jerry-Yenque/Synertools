@@ -1,9 +1,12 @@
-import requests
 import os
+
+import requests
 from dotenv import load_dotenv
+
 from src.ui.theme.color import GREEN, GRAY, YELLOW, BLUE, WHITE
 
-class Auth: 
+
+class Auth:
     """ Test me  python -m data.api.interceptor.Auth """
     token: str = ""
     refresh_token: str = ""
@@ -39,8 +42,8 @@ class Auth:
         print("in test", os.getenv("USER_CLOUD"))
 
     @staticmethod
-    def checkAuth() -> None:
-        if(Auth.token == ""):
+    def check_auth() -> None:
+        if Auth.token == "":
             Auth.authenticate()
 
 if __name__ == "__main__":

@@ -15,13 +15,13 @@ class InvoiceApi:
         print(f"{color.YELLOW}{self.__class__.__name__} Init.{color.GRAY}")
         self.host = host
 
-    def getInvoiceById(self, id: str) -> InvoiceResponse:
-        Auth.checkAuth()
+    def get_invoice_by_id(self, mongo_id: str) -> InvoiceResponse:
+        Auth.check_auth()
 
         headers = {
             'Authorization': f'Bearer {Auth.token}',  #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         }
-        url = f"{self.host}/api/documents/invoices/{id}"
+        url = f"{self.host}/api/documents/invoices/{mongo_id}"
         response = requests.get(url=url, headers=headers)
         response.raise_for_status()
         # print(f"{GREEN}{response.json()}{GRAY}")
@@ -33,5 +33,5 @@ class InvoiceApi:
     
 if __name__ == "__main__":
     invoice_api =  InvoiceApi("http://localhost:8080")
-    invoice = invoice_api.getInvoiceById("67b4ca12fa0f9264c10a36bc")
+    invoice = invoice_api.get_invoice_by_id("67b4ca12fa0f9264c10a36bc")
     pprint(invoice)

@@ -1,12 +1,18 @@
-from src.ui.theme.color import GRAY, YELLOW
+from decimal import Decimal
+from pprint import pprint
+from typing import cast
+
+from bson import ObjectId
+from dacite import Config, from_dict
+from dacite.data import Data
+
+from src.data.api.invoice_api import InvoiceApi
 from src.data.datasource.mongo_datasource import MongoDataSource
 from src.data.model.document_not_found_error import DocumentNotFoundError
-from bson import ObjectId
-from src.data.mapper.data_to_domain_mapper import invoiceToDomain
+from src.data.model.invoice import InvoiceResponse
 from src.domain.model.receipt import Receipt
-from src.data.api.invoice_api import InvoiceApi
-from src.data.model.receipt_response import ReceiptResponse
-from pprint import pprint
+from src.ui.theme.color import GRAY, YELLOW
+
 
 class InvoiceRepository:
     def __init__(self, mongo_datasource: MongoDataSource, invoice_api: InvoiceApi) -> None:
@@ -14,42 +20,66 @@ class InvoiceRepository:
         self.mongo_datasource = mongo_datasource
         self.invoice_api = invoice_api
 
-    def getInvoiceById(self, id: str) -> Receipt:
-        receipt = self.mongo_datasource.get_document(
+    def get_invoice_by_id(self, mongo_id: str) -> Receipt:
+        """ we are recycling and returning Receipt because it shares the same info we need for Invoice """
+        invoice = self.mongo_datasource.get_document(
         collection_name="invoices",
-        query={"_id": ObjectId(id)}
+        query={"_id": ObjectId(mongo_id)}
         )
-        if receipt is None:
-            raise DocumentNotFoundError(f"Invoice with id {id} not found")
-        return invoiceToDomain(receipt)
+        if invoice is None:
+            raise DocumentNotFoundError(f"Invoice with id {mongo_id} not found")
+
+        if "_id" in invoice:
+            invoice["id"] = str(invoice.pop("_id"))
+        invoice_data = cast(Data, invoice)
+        config = Config(type_hooks={Decimal: Decimal})
+        return from_dict(data_class=Receipt, data=invoice_data, config=config)
     
-    def getInvoiceByOid(self, oid: str) -> dict:
-        receipt = self.mongo_datasource.get_document(
+    def get_invoice_by_oid(self, oid: str) -> Receipt:
+        """ we are recycling and returning Receipt because it shares the same info we need for Invoice  """
+        invoice = self.mongo_datasource.get_document(
         collection_name="invoices",
         query={"oid": oid}
         )
-        if receipt is None:
+        if invoice is None:
             raise DocumentNotFoundError(f"Invoice with oid {oid} not found")
-        return invoiceToDomain(receipt)
+
+        if "_id" in invoice:
+            invoice["id"] = str(invoice.pop("_id"))
+        invoice_data = cast(Data, invoice)
+        config = Config(type_hooks={Decimal: Decimal})
+        return from_dict(data_class=Receipt, data=invoice_data, config=config)
     
-    def getInvoiceByNumber(self, number: str) -> Receipt:
-        """ Return a invoice directly from mongodb """
+    def get_invoice_by_number(self, number: str) -> Receipt:
+        """ Return an invoice directly from mongodb, we are recycling and returning Receipt because it shares the same info we need for Invoice """
         invoice = self.mongo_datasource.get_document(
         collection_name="invoices",
         query={"number": number}
         )
         if invoice is None:
             raise DocumentNotFoundError(f"Invoice with number {number} not found")
-        return invoiceToDomain(invoice)
+
+        if "_id" in invoice:
+            invoice["id"] = str(invoice.pop("_id"))
+        invoice_data = cast(Data, invoice)
+        config = Config(type_hooks={Decimal: Decimal})
+        return from_dict(data_class=Receipt, data=invoice_data, config=config)
     
-    def getRemoteInvoiceById(self, id: str) -> ReceiptResponse:
-        return self.invoice_api.getInvoiceById(id=id)
+    def get_remote_invoice_by_id(self, mongo_id: str) -> InvoiceResponse:
+        return self.invoice_api.get_invoice_by_id(mongo_id=mongo_id)
     
 if __name__ == "__main__":
-    invoice_api =  InvoiceApi("http://localhost:8080")
-    mongo_datasource = MongoDataSource(mongo_uri="mongodb://localhost:27017", db_name="alesar")
-    invoice_repository = InvoiceRepository(mongo_datasource=mongo_datasource, invoice_api=invoice_api)
-    receipt = invoice_repository.getRemoteInvoiceById(id = "67b4ca12fa0f9264c10a36bc")
-    # receipt = receipt_repository.get_receipt_by_number(number= "B908-00462108")
+    invoice_api_test =  InvoiceApi("http://localhost:8080")
+    mongo_datasource_test = MongoDataSource(mongo_uri="mongodb://localhost:27017", db_name="alesar")
+    invoice_repository = InvoiceRepository(mongo_datasource=mongo_datasource_test, invoice_api=invoice_api_test)
 
-    pprint(receipt)
+#=========== get_remote_invoice_by_id test =============================================================
+    # receipt_test = invoice_repository.get_remote_invoice_by_id(mongo_id = "67b4ca12fa0f9264c10a36bc")
+
+#=========== get_remote_invoice_by_id test =============================================================
+    # receipt_test = invoice_repository.get_invoice_by_oid(oid = "14206.3031594")
+
+#=========== get_invoice_by_id test =============================================================
+    receipt_test = invoice_repository.get_invoice_by_id(mongo_id="67b4ca12fa0f9264c10a36bc")
+
+    pprint(receipt_test)

@@ -1,3 +1,4 @@
+from datetime import datetime
 from decimal import Decimal
 
 import pandas as pd
@@ -8,7 +9,6 @@ from src.data.api.order_api import OrderApi
 from src.data.api.receipt_api import ReceiptApi
 from src.data.datasource.mongo_datasource import MongoDataSource
 from src.data.model.calculator_response import CalculatorResponse
-from src.data.model.create_receipt_request import CreateReceiptRequest
 from src.data.model.order_request import OrderRequest
 from src.data.repository.calculator_repository import CalculatorRepository
 from src.data.repository.order_repository import OrderRepository
@@ -32,11 +32,10 @@ class ReceiptUseCases:
 
     def generate_receipts_yaml_from_csv(self, filepath: str, workspace_oid: str, balance_oid: str):
         errors_file = "errors.csv"
-
         with open(errors_file, "w", encoding="utf-8") as f:
             f.write("Receipt_Number,User,Subtraction,OrderNumber\n")
         df = pd.read_csv(filepath_or_buffer=filepath, dtype={'oid': str, 'number': str}, sep="\t")
-        for i, number in enumerate(df['number'].iloc[17677:17679], start=1): # .iloc[17677:17690]
+        for i, number in enumerate(df['number'], start=1): # .iloc[17677:17690]
             # We got the receipt from mongo by the given number in csv file
             receipt_mongo: Receipt = self.__receipt_repository.get_receipt_by_number(number=number)
             print(f"{color.YELLOW}{i}- {color.BLUE}{number} -> {color.WHITE}{receipt_mongo.number} : {receipt_mongo.id}{color.GRAY}")
@@ -68,6 +67,11 @@ class ReceiptUseCases:
                 balance_oid=balance_oid
             )
             print()
+
+        end_time = datetime.now().time()
+
+        # Imprimir la hora en formato HH:MM:SS
+        print("End time:", end_time)
 
 
 
